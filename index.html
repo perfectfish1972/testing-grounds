@@ -1,0 +1,1090 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<title>Port Visit — St. John’s, NL</title>
+<meta name="description" content="Mobile-first port visit info page (read-only).">
+<style>
+  :root{
+    --bg:#f6f7fb; --panel:#ffffff; --text:#0b1726; --muted:#5b6b7b; --border:#e3e8f1; --chip:#f1f4f9;
+    /* Ship brand tones */
+    --accent:#1f4fbf;
+    --accent-2:#f4c542;
+    --tile-grad:linear-gradient(180deg, rgba(31,79,191,.10), rgba(244,197,66,.06));
+
+    /* Tile palette */
+    --blue: var(--accent);
+    --green:#16a34a;
+    --red:#ef4444;
+    --purple:#7c3aed;
+    --orange:#f59e0b;
+    --teal:#0ea5a4;
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0b121b; --panel:#101826; --text:#e6eef7; --muted:#9fb0c3; --border:#1e2a3a; --chip:#172233;
+      --accent:#4e7aff; --accent-2:#ffd46a;
+      --tile-grad:linear-gradient(180deg, rgba(78,122,255,.18), rgba(255,212,106,.12));
+    }
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+  html,body{max-width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%}
+  a{color:inherit;text-decoration:none}
+
+  .wrap{max-width:900px;margin:0 auto;padding:16px;width:100%;padding-left:max(16px, env(safe-area-inset-left));padding-right:max(16px, env(safe-area-inset-right))}
+  .muted{color:var(--muted)}
+  .small{font-size:.92rem}
+  .sep{margin:0 .5rem}
+
+  /* Header */
+  header.site-header{
+    position:relative;
+    border-bottom:1px solid var(--border);
+    background:
+      radial-gradient(1200px 320px at 10% -40%, var(--accent-2) 0%, transparent 60%),
+      radial-gradient(900px 260px at 100% -70%, var(--accent) 0%, transparent 60%),
+      var(--bg);
+    overflow:hidden;
+  }
+  header.site-header::after{
+    content:"";
+    position:absolute;
+    right:-38px;
+    bottom:-90px;
+    width:300px;
+    height:300px;
+    background-image:var(--crest-url);
+    background-repeat:no-repeat;
+    background-size:contain;
+    opacity:.08;
+    pointer-events:none;
+    filter:grayscale(12%) contrast(92%);
+  }
+
+  .shipline{display:flex;align-items:center;gap:12px;margin:.15rem 0 .35rem}
+  .shipline .crest{width:68px;height:68px;border-radius:50%;border:1px solid var(--border);background:#fff;object-fit:contain;box-shadow:0 8px 22px rgba(0,0,0,.14)}
+  .shipline .ship-name{font-weight:800;letter-spacing:.2px}
+
+  header.site-header h1{
+    margin:.25rem 0 .25rem;
+    font-size:1.75rem;
+    line-height:1.08;
+    letter-spacing:.2px;
+    background:linear-gradient(92deg,var(--text),var(--accent-2),var(--text));
+    background-clip:text;
+    color:transparent;
+  }
+  header.site-header h1::after{content:"";display:block;width:92px;height:4px;margin:.45rem 0 0;border-radius:999px;background:linear-gradient(90deg,var(--accent-2),transparent)}
+
+  .meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.35rem .75rem;
+    margin:.2rem 0 .6rem;
+  }
+  .pill{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 12px;
+    border-radius:999px;
+    background:var(--chip);
+    border:1px solid var(--border);
+    font-size:.92rem;
+  }
+  .pill strong{font-weight:800}
+
+  /* Views */
+  .view{display:none}
+  .view.active{display:block}
+
+  /* Landing tiles */
+  .grid{display:grid;gap:14px;margin:18px 0 24px}
+  @media (min-width:720px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+  .tile{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:16px;
+    border-radius:18px;
+    border:1px solid var(--border);
+    background:var(--panel);
+    background-image:var(--tile-grad);
+    box-shadow:0 1px 0 rgba(0,0,0,.02);
+    position:relative;
+    overflow:hidden;
+  }
+  .tile:active{transform:scale(.985)}
+  .tile:hover{box-shadow:0 14px 30px rgba(0,0,0,.14);transform:translateY(-3px)}
+
+  .tile-emoji{
+    font-size:1.6rem;
+    line-height:1;
+    display:inline-grid;
+    place-items:center;
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    background:var(--chip);
+    border:1px solid var(--border);
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+  }
+  .tile h2{margin:0 0 2px;font-size:1.07rem}
+  .tile p{margin:0}
+
+  /* Tile colorways */
+  .tile-blue{--t:var(--blue)}
+  .tile-green{--t:var(--green)}
+  .tile-red{--t:var(--red)}
+  .tile-purple{--t:var(--purple)}
+  .tile-orange{--t:var(--orange)}
+  .tile-teal{--t:var(--teal)}
+  .tile-blue,.tile-green,.tile-red,.tile-purple,.tile-orange,.tile-teal{border-color:color-mix(in oklab, var(--t) 30%, var(--border));}
+  .tile-blue::before,.tile-green::before,.tile-red::before,.tile-purple::before,.tile-orange::before,.tile-teal::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg, color-mix(in oklab, var(--t) 16%, transparent), transparent);opacity:.95}
+  .tile-blue .tile-emoji,.tile-green .tile-emoji,.tile-red .tile-emoji,.tile-purple .tile-emoji,.tile-orange .tile-emoji,.tile-teal .tile-emoji{background:color-mix(in oklab, var(--t) 12%, var(--chip));border-color:color-mix(in oklab, var(--t) 30%, var(--border))}
+
+  /* Sections */
+  .section{margin:18px 0 8px;border:1px solid var(--border);border-radius:18px;background:var(--panel);overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.04)}
+  .section header{padding:12px 14px;border-bottom:1px solid var(--border);background:linear-gradient(180deg, var(--chip), transparent);font-weight:900;position:relative}
+  .section header::before{content:"";position:absolute;left:0;top:0;width:100%;height:3px;background:var(--accent-2);opacity:.75}
+
+  /* Per-section accent bars */
+  #view-schedule .section header::before{background:var(--green)}
+  #view-contacts .section header::before{background:var(--blue)}
+  #view-medical .section header::before{background:var(--red)}
+  #view-maps .section header::before{background:var(--purple)}
+  #view-safety .section header::before{background:var(--teal)}
+
+  .list{padding:10px 12px 14px;display:grid;gap:12px}
+  .card{border:1px solid var(--border);background:var(--panel);border-radius:14px;padding:12px;display:grid;gap:8px}
+
+  .kv{display:grid;grid-template-columns:120px 1fr;gap:8px}
+  @media (max-width:420px){.kv{grid-template-columns:110px 1fr}}
+  .kv > *:nth-child(2n){min-width:0;overflow-wrap:anywhere;word-break:break-word}
+
+  .actions{display:flex;gap:8px;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 14px;
+    border-radius:999px;
+    background:linear-gradient(180deg,var(--panel),var(--chip));
+    border:1px solid var(--border);
+    color:var(--text);
+    min-height:44px;
+    box-shadow:0 2px 8px rgba(0,0,0,.07);
+  }
+  .btn:active{transform:scale(.985)}
+  .btn[aria-disabled="true"]{opacity:.55;pointer-events:none}
+
+  .back{display:inline-flex;align-items:center;gap:8px;margin:10px 0 0}
+
+  /* Maps category grid */
+  .cat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  @media (min-width:720px){.cat-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  .cat{
+    border:1px solid var(--border);
+    background:var(--panel);
+    border-radius:16px;
+    padding:12px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 1px 0 rgba(0,0,0,.02);
+  }
+  .cat:active{transform:scale(.985)}
+  .cat:hover{box-shadow:0 10px 22px rgba(0,0,0,.12);transform:translateY(-2px)}
+  .cat .ico{font-size:1.25rem}
+  .cat .ttl{margin:6px 0 2px;font-weight:850}
+  .cat .sub{margin:0;color:var(--muted);font-size:.9rem}
+
+  @media (prefers-reduced-motion:no-preference){
+    .tile,.btn,.cat{transition:transform .18s ease, box-shadow .22s ease}
+  }
+
+  footer.site-footer{border-top:1px solid var(--border);padding:16px 0 28px;background:var(--bg)}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="shipline">
+      <img id="ship-crest" class="crest" alt="Ship crest" src="IMG_2434.PNG" />
+      <div>
+        <div id="ship-name" class="ship-name">HMCS Frédérick Rolette</div>
+        <div class="muted small" id="ship-sub">Port Visit Info</div>
+      </div>
+    </div>
+
+    <h1 id="port-title">Port Visit — St. John’s, NL</h1>
+
+    <div class="meta" aria-label="Visit details">
+      <div class="pill">📍 <span id="port-area">Downtown / Port Area</span></div>
+      <div class="pill">📅 <span>Visit:</span> <strong id="visit-range">Feb 11–14, 2026</strong></div>
+      <div class="pill">🕒 <span>Local (<span id="tz-abbr">—</span>):</span> <strong id="local-time">—:—</strong></div>
+      <div class="pill">🕒 <span>Halifax (<span id="hx-abbr">—</span>):</span> <strong id="hx-time">—:—</strong></div>
+      <div class="pill" id="fx-pill" style="display:none">💱 <span id="fx-text">—</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HOME -->
+  <section id="view-home" class="view active" aria-labelledby="home-title">
+    <h2 id="home-title" style="position:absolute;left:-9999px">Landing</h2>
+    <div class="grid">
+      <a class="tile tile-green" href="#/schedule">
+        <div class="tile-emoji" aria-hidden="true">🕒</div>
+        <div><h2>Schedule &amp; Leave</h2><p class="muted small">Daily plan, leave expiry, weather</p></div>
+      </a>
+      <a class="tile tile-blue" href="#/contacts">
+        <div class="tile-emoji" aria-hidden="true">📞</div>
+        <div><h2>Duty Contacts</h2><p class="muted small">Quarterdeck • Duty Medical • Check-in</p></div>
+      </a>
+      <a class="tile tile-red" href="#/medical">
+        <div class="tile-emoji" aria-hidden="true">🚑</div>
+        <div><h2>Medical &amp; Emergency</h2><p class="muted small">Sick parade • hospitals • 911</p></div>
+      </a>
+      <a class="tile tile-purple" href="#/maps">
+        <div class="tile-emoji" aria-hidden="true">🗺️</div>
+        <div><h2>Maps &amp; Local Info</h2><p class="muted small">Food • groceries • transit • ATMs • events</p></div>
+      </a>
+      <a class="tile tile-teal" href="#/safety">
+        <div class="tile-emoji" aria-hidden="true">ℹ️</div>
+        <div><h2>Local Info &amp; Safety</h2><p class="muted small">Quick tips, weather, local awareness</p></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- SCHEDULE -->
+  <section id="view-schedule" class="view" aria-labelledby="schedule-title">
+    <a class="back" href="#/">← Back</a>
+    <div class="section">
+      <header id="schedule-title">Schedule &amp; Leave — St. John’s, NL</header>
+      <div class="list">
+        <div class="card">
+          <strong>Port Schedule</strong>
+          <div id="schedule-days" class="list" style="padding:0;gap:10px"></div>
+          <p class="muted small" style="margin:0">Leave expiry defaults are template values; adjust before publish if briefed differently.</p>
+        </div>
+        <div class="card">
+          <strong>Check-In</strong>
+          <div class="kv">
+            <div class="muted">Window</div><div id="checkin-window">0700–1100</div>
+            <div class="muted">Email</div><div><a id="checkin-email" class="btn" href="#" aria-disabled="true">TBD</a></div>
+            <div class="muted">Phone</div><div><a id="checkin-phone" class="btn" href="#" aria-disabled="true">TBD</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTS -->
+  <section id="view-contacts" class="view" aria-labelledby="contacts-title">
+    <a class="back" href="#/">← Back</a>
+    <div class="section">
+      <header id="contacts-title">Duty Contacts — St. John’s, NL</header>
+      <div class="list" id="contacts-list"></div>
+      <div class="list" style="padding-top:0">
+        <div class="card">
+          <strong>Note</strong>
+          <p class="muted small" style="margin:0">Numbers can change per port. This page is read-only; updates happen by republishing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MEDICAL -->
+  <section id="view-medical" class="view" aria-labelledby="medical-title">
+    <a class="back" href="#/">← Back</a>
+    <div class="section">
+      <header id="medical-title">Medical &amp; Emergency — St. John’s, NL</header>
+      <div class="list">
+        <div class="card">
+          <strong>Sick Parade Hours</strong>
+          <div class="kv"><div class="muted">Hours</div><div id="sick-hours">0800–0900 (typical)</div></div>
+        </div>
+        <div class="card">
+          <strong>Duty Medical (on-call)</strong>
+          <div class="actions">
+            <a class="btn" id="med-call" href="#" aria-disabled="true">Call (TBD)</a>
+            <a class="btn" id="med-sms" href="#" aria-disabled="true">Text (TBD)</a>
+          </div>
+          <p class="muted small" style="margin:0">Role per day (example): PA / Paramedic — set before publish.</p>
+          <div id="med-roster" class="small muted">Roster: TBD</div>
+        </div>
+        <div class="card">
+          <strong>Nearest Hospitals (links)</strong>
+          <p class="muted small" style="margin:0">Opens maps. Confirm best destination on arrival.</p>
+          <div class="list" id="hospitals-list" style="padding:0"></div>
+        </div>
+        <div class="card">
+          <strong>Local Emergency</strong>
+          <div class="kv"><div class="muted">Emergency</div><div><a class="btn" style="padding:8px 12px;min-height:auto" href="tel:911">911 (Canada)</a></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAPS MAIN -->
+  <section id="view-maps" class="view" aria-labelledby="maps-title">
+    <a class="back" href="#/">← Back</a>
+    <div class="section">
+      <header id="maps-title">Maps &amp; Local Info — St. John’s, NL</header>
+      <div class="list">
+        <div class="card">
+          <strong>Port Area (public)</strong>
+          <div class="actions">
+            <a class="btn" id="port-gmap" href="#" target="_blank" rel="noopener">Google Maps</a>
+            <a class="btn" id="port-amap" href="#" target="_blank" rel="noopener">Apple Maps</a>
+          </div>
+          <p class="muted small" style="margin:0">No berth numbers or ship location.</p>
+        </div>
+
+        <div class="card">
+          <strong>Categories</strong>
+          <div class="cat-grid" aria-label="Local categories">
+            <a class="cat" href="#/maps/restaurants"><div class="ico" aria-hidden="true">🍽️</div><div class="ttl">Restaurants</div><p class="sub">Curated picks + map search</p></a>
+            <a class="cat" href="#/maps/bars"><div class="ico" aria-hidden="true">🍻</div><div class="ttl">Bars &amp; Breweries</div><p class="sub">Downtown nightlife</p></a>
+            <a class="cat" href="#/maps/groceries"><div class="ico" aria-hidden="true">🛒</div><div class="ttl">Groceries &amp; Convenience</div><p class="sub">Basics near the port</p></a>
+            <a class="cat" href="#/maps/atms"><div class="ico" aria-hidden="true">🏦</div><div class="ttl">ATMs &amp; Banks</div><p class="sub">Cash + branches</p></a>
+            <a class="cat" href="#/maps/transit"><div class="ico" aria-hidden="true">🚌</div><div class="ttl">Transit &amp; Taxis</div><p class="sub">Metrobus + cab options</p></a>
+            <a class="cat" href="#/maps/attractions"><div class="ico" aria-hidden="true">🏛️</div><div class="ttl">Museums &amp; Attractions</div><p class="sub">Top sights</p></a>
+            <a class="cat" href="#/maps/parks"><div class="ico" aria-hidden="true">🌲</div><div class="ttl">Parks &amp; Viewpoints</div><p class="sub">Walks + lookouts</p></a>
+            <a class="cat" href="#/maps/theatres"><div class="ico" aria-hidden="true">🎭</div><div class="ttl">Theatres &amp; Cinemas</div><p class="sub">Shows + movies</p></a>
+            <a class="cat" href="#/maps/events"><div class="ico" aria-hidden="true">🎟️</div><div class="ttl">Events &amp; Festivals</div><p class="sub">What’s on during the visit</p></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MAPS SUBPAGES -->
+  <section id="view-maps-restaurants" class="view" aria-labelledby="maps-restaurants-title">
+    <a class="back" href="#/maps">← Back to Maps</a>
+    <div class="section">
+      <header id="maps-restaurants-title">Restaurants — St. John’s, NL</header>
+      <div class="list" id="restaurants-list"></div>
+    </div>
+  </section>
+
+  <section id="view-maps-bars" class="view" aria-labelledby="maps-bars-title">
+    <a class="back" href="#/maps">← Back to Maps</a>
+    <div class="section">
+      <header id="maps-bars-title">Bars &amp; Breweries — St. John’s, NL</header>
+      <div class="list" id="bars-list"></div>
+    </div>
+  </section>
+
+  <section id="view-maps-groceries" class="view" aria-labelledby="maps-groceries-title">
+    <a class="back" href="#/maps">← Back to Maps</a>
+    <div class="section">
+      <header id="maps-groceries-title">Groceries &amp; Convenience — St. John’s, NL</header>
+      <div class="list" id="groceries-list"></div>
+    </div>
+  </section>
+
+  <section id="view-maps-atms" class="view" aria-labelledby="maps-atms-title">
+    <a class="back" href="#/maps">← Back to Maps</a>
+    <div class="section">
+      <header id="maps-atms-title">ATMs &amp; Banks — St. John’s, NL</header>
+      <div class="list" id="atms-list"></div>
+    </div>
+  </section>
+
+  <section id="view-maps-transit" class="view" aria-labelledby="maps-transit-title">
+    <a class="back" href="#/maps">← Back to Maps</a>
+    <div class="section">
+      <header id="maps-transit-title">Transit &amp; Taxis — St. John’s, NL</header>
+      <div class="list" id="transit-list"></div>
+    </div>
+  </section>
+
+  <section id="view-maps-attractions" class="view" aria-labelledby="maps-attractions-title">
+    <a class="back" href="#/maps">← Back to Maps</a>
+    <div class="section">
+      <header id="maps-attractions-title">Museums &amp; Attractions — St. John’s, NL</header>
+      <div class="list" id="attractions-list"></div>
+    </div>
+  </section>
+
+  <section id="view-maps-parks" class="view" aria-labelledby="maps-parks-title">
+    <a class="back" href="#/maps">← Back to Maps</a>
+    <div class="section">
+      <header id="maps-parks-title">Parks &amp; Viewpoints — St. John’s, NL</header>
+      <div class="list" id="parks-list"></div>
+    </div>
+  </section>
+
+  <section id="view-maps-theatres" class="view" aria-labelledby="maps-theatres-title">
+    <a class="back" href="#/maps">← Back to Maps</a>
+    <div class="section">
+      <header id="maps-theatres-title">Theatres &amp; Cinemas — St. John’s, NL</header>
+      <div class="list" id="theatres-list"></div>
+    </div>
+  </section>
+
+  <section id="view-maps-events" class="view" aria-labelledby="maps-events-title">
+    <a class="back" href="#/maps">← Back to Maps</a>
+    <div class="section">
+      <header id="maps-events-title">Events &amp; Festivals — St. John’s, NL</header>
+      <div class="list" id="events-list"></div>
+    </div>
+  </section>
+
+  <!-- SAFETY / LOCAL INFO -->
+  <section id="view-safety" class="view" aria-labelledby="safety-title">
+    <a class="back" href="#/">← Back</a>
+    <div class="section">
+      <header id="safety-title">Local Info &amp; Safety — St. John’s, NL</header>
+      <div class="list">
+        <div class="card">
+          <strong>Quick Tips</strong>
+          <ul class="small" style="margin:0 0 0 1rem">
+            <li>Use normal precautions, maintain situational awareness, and use a buddy system at night.</li>
+            <li>Stick to well-lit areas; public transit is generally safe.</li>
+            <li>Carry military ID + a second piece of ID. Leave passports onboard (keep a photo copy if needed).</li>
+            <li>Winter conditions can be icy; downtown is walkable but hilly—use traction footwear.</li>
+            <li>You must remain contactable; contact the ship if you or a buddy run into trouble or need emergency assistance.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <strong>Transportation</strong>
+          <div class="kv">
+            <div class="muted">Ride share</div><div>No Uber (use taxis / bus)</div>
+            <div class="muted">Bus</div><div>Metrobus (fare info in Transit)</div>
+          </div>
+        </div>
+        <div class="card">
+          <strong>Weather</strong>
+          <p class="muted small" style="margin:0">Brief forecast appears in <em>Schedule &amp; Leave</em>. For full details:</p>
+          <div class="actions">
+            <a class="btn" id="wx-ec" href="#" target="_blank" rel="noopener">Environment Canada</a>
+            <a class="btn" id="wx-twn" href="#" target="_blank" rel="noopener">The Weather Network</a>
+          </div>
+        </div>
+        <div class="card">
+          <strong>Areas to Avoid (general)</strong>
+          <p class="muted small" style="margin:0">No specific restrictions listed. Use normal caution late-night in entertainment areas and stay with the group.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap muted small">
+    <p style="margin:0">For awareness only. Do not publish future movements or ship location details.</p>
+  </div>
+</footer>
+
+<script>
+  const CONFIG = {
+    ship: { name: "HMCS Frédérick Rolette", crestUrl: "IMG_2434.PNG" },
+
+    port: {
+      city: "St. John’s, NL",
+      areaLabel: "Downtown / Port Area",
+      tz: "America/St_Johns",
+      halifaxTz: "America/Halifax",
+      portQuery: "Downtown St. John's Newfoundland",
+      wx: {
+        envCanadaUrl: "https://weather.gc.ca/en/location/index.html?coords=47.558%2C-52.717",
+        weatherNetworkUrl: "https://www.theweathernetwork.com/en/city/ca/newfoundland-and-labrador/st-johns/7-days"
+      }
+    },
+
+    // Optional: show FX only when set (useful outside Canada)
+    fx: {
+      text: "" // e.g., "1 CAD ≈ 0.74 USD" (set before publish). Leave blank to hide.
+    },
+
+    visit: {
+      start: "2026-02-11",
+      end: "2026-02-14",
+      labels: {
+        "2026-02-11": "Arrive",
+        "2026-02-12": "Sunday routine",
+        "2026-02-13": "Sunday routine",
+        "2026-02-14": "Depart"
+      }
+    },
+
+    schedule: {
+      checkinWindow: "0700–1100 (OOD, onboard)",
+      checkinEmail: "FRRcheckin@forces.gc.ca",
+      checkinPhone: "TBD",
+      // Leave rules: default 0700 next day; night before depart 2359.
+      // If briefed differently, override per-day below.
+      leaveOverrides: {
+        "2026-02-14": "N/A (Depart)"
+      },
+      // Optional brief per-day weather (placeholders by default)
+      weatherByDay: {
+        "2026-02-11": "TBD",
+        "2026-02-12": "TBD",
+        "2026-02-13": "TBD",
+        "2026-02-14": "TBD"
+      }
+    },
+
+    contacts: [
+      { role: "Quarterdeck / Brow", phone: "TBD" },
+      { role: "Duty Medical", phone: "TBD" },
+      { role: "Check-In", phone: "TBD", email: "FRRcheckin@forces.gc.ca" }
+    ],
+
+    medical: {
+      sickParadeHours: "0800–0900 (typical)",
+      dutyPhone: "TBD",
+      medRoster: [],
+      hospitals: [
+        {
+          name: "Health Sciences Centre (ED)",
+          note: "Eastern Health",
+          phone: "(709) 777-6300",
+          gmap: "https://www.google.com/maps/search/Health%20Sciences%20Centre%20St.%20John's%20Emergency",
+          amap: "https://maps.apple.com/?q=Health%20Sciences%20Centre%20St.%20John's"
+        },
+        {
+          name: "St. Clare’s Mercy Hospital (ED)",
+          note: "Eastern Health",
+          phone: "(709) 777-5000",
+          gmap: "https://www.google.com/maps/search/St.%20Clare's%20Mercy%20Hospital%20St.%20John's%20Emergency",
+          amap: "https://maps.apple.com/?q=St.%20Clare's%20Mercy%20Hospital%20St.%20John's"
+        }
+      ]
+    },
+
+    maps: {
+      restaurants: [
+        { name: "The Celtic Hearth", note: "Pub fare (downtown)", website: "", searchQuery: "The Celtic Hearth St. John's NL" },
+        { name: "Ches’s Famous Fish & Chips", note: "Local classic", website: "", searchQuery: "Ches's Fish and Chips St. John's NL" },
+        { name: "Piatto Pizzeria + Enoteca", note: "Pizza + Italian", website: "", searchQuery: "Piatto St. John's NL" },
+        { name: "No. 4 Restaurant & Bar", note: "Downtown dining", website: "", searchQuery: "No. 4 Restaurant and Bar St. John's NL" },
+        { name: "St. John’s Fish Exchange", note: "Seafood spot", website: "", searchQuery: "St John's Fish Exchange Kitchen and Wet Bar" },
+        { name: "The Adelaide Oyster House", note: "Small plates + oysters", website: "", searchQuery: "Adelaide Oyster House St. John's NL" },
+        { name: "Sushi Island", note: "Sushi (fun vibe)", website: "", searchQuery: "Sushi Island St. John's NL" },
+
+        { name: "Bagel Café", note: "All-day breakfast", website: "", searchQuery: "Bagel Cafe St. John's NL" },
+        { name: "Jumping Bean Coffee", note: "Coffee stop", website: "", searchQuery: "Jumping Bean Coffee St. John's NL" },
+        { name: "Rocket Bakery", note: "Coffee + baked goods", website: "", searchQuery: "Rocket Bakery St. John's NL" },
+        { name: "More restaurants (map search)", note: "Search near the port area", website: "", searchQuery: "restaurants near downtown St. John's NL" }
+      ],
+      bars: [
+        { name: "George Street", note: "Nightlife district", website: "", searchQuery: "George Street St. John's NL" },
+        { name: "Quidi Vidi Brewery", note: "Taproom + tours", website: "https://quidividibrewery.ca/", searchQuery: "Quidi Vidi Brewery" },
+        { name: "YellowBelly Brewery", note: "Brewpub + food", website: "https://yellowbellybrewery.com/", searchQuery: "YellowBelly Brewery St. John's" },
+        { name: "Kelly’s Pub", note: "Pub", website: "", searchQuery: "Kelly's Pub St. John's NL" },
+        { name: "O’Reilly’s Pub", note: "Often live music", website: "", searchQuery: "O'Reilly's Pub St. John's NL" },
+        { name: "Trapper John’s", note: "Pub", website: "", searchQuery: "Trapper John's St. John's NL" },
+        { name: "More bars (map search)", note: "Search near the port area", website: "", searchQuery: "bars near downtown St. John's NL" }
+      ],
+      groceries: [
+        { name: "Groceries near the port (map search)", note: "Grocery + convenience stores", website: "", searchQuery: "grocery store OR convenience store near downtown St. John's NL" },
+        { name: "Major chains (map search)", note: "Dominion • Sobeys • Coleman’s", website: "", searchQuery: "Dominion Sobeys Colemans St. John's NL" }
+      ],
+      atms: [
+        { name: "Nearest ATM (map search)", note: "Search near the port area", website: "", searchQuery: "ATM near downtown St. John's NL" },
+        { name: "Bank branches (map search)", note: "RBC • TD • Scotiabank • BMO • CIBC", website: "", searchQuery: "RBC TD Scotiabank BMO CIBC downtown St. John's NL" }
+      ],
+      transit: [
+        { name: "Metrobus (official)", note: "Routes, schedules, service bulletins", website: "https://metrobus.com/home/" },
+        { name: "Metrobus Mobile (tracker)", note: "Real-time style view", website: "https://www.metrobusmobile.com/" },
+        { name: "City page: Metrobus overview", note: "Accessibility + GoBus info", website: "https://www.stjohns.ca/en/streets-parking/metrobus.aspx" },
+        { name: "Taxi: Jiffy Cab (map search)", note: "No Uber (per brief) — use taxis", website: "", searchQuery: "Jiffy Cab St. John's NL" },
+        { name: "Taxi: Newfound Cab (map search)", note: "No Uber (per brief) — use taxis", website: "", searchQuery: "Newfound Cab St. John's NL" }
+      ],
+      attractions: [
+        { name: "The Rooms", note: "Museum + gallery", website: "https://www.therooms.ca/", searchQuery: "The Rooms St. John's NL" },
+        { name: "Signal Hill National Historic Site", note: "Iconic lookout + trails", website: "https://parks.canada.ca/lhn-nhs/nl/signalhill", searchQuery: "Signal Hill National Historic Site" },
+        { name: "Cape Spear Lighthouse", note: "Most easterly point in Canada", website: "", searchQuery: "Cape Spear Lighthouse National Historic Site" },
+        { name: "More attractions (map search)", note: "Search near the port area", website: "", searchQuery: "attractions near downtown St. John's NL" }
+      ],
+      parks: [
+        { name: "Bannerman Park", note: "Central park", website: "", searchQuery: "Bannerman Park St. John's NL" },
+        { name: "Quidi Vidi Lake", note: "Loop walk (weather permitting)", website: "", searchQuery: "Quidi Vidi Lake" },
+        { name: "East Coast Trail access (map search)", note: "Hikes near the city", website: "", searchQuery: "East Coast Trail trailhead St. John's NL" }
+      ],
+      theatres: [
+        { name: "Theatres & cinemas (map search)", note: "Shows + movies near downtown", website: "", searchQuery: "theatre OR cinema near downtown St. John's NL" }
+      ],
+      events: [
+        { name: "City events & festivals", note: "Official listings (good starting point)", website: "https://www.stjohns.ca/en/recreation-culture/events-and-festivals.aspx" },
+        { name: "Destination St. John’s — events calendar", note: "Citywide calendar", website: "https://destinationstjohns.com/events/calendar/" },
+        { name: "Mary Brown’s Centre — events & tickets", note: "Sports + concerts listings", website: "https://mbcentre.ca/events-and-tickets/" },
+        { name: "More events (map search)", note: "Search venues near downtown", website: "", searchQuery: "events near downtown St. John's NL" }
+      ]
+    }
+  };
+
+  const $ = (s)=>document.querySelector(s);
+  const $$ = (s)=>document.querySelectorAll(s);
+
+  const routes = {
+    "": "view-home",
+    "/": "view-home",
+    "/home": "view-home",
+    "/schedule": "view-schedule",
+    "/contacts": "view-contacts",
+    "/medical": "view-medical",
+    "/maps": "view-maps",
+    "/maps/restaurants": "view-maps-restaurants",
+    "/maps/bars": "view-maps-bars",
+    "/maps/groceries": "view-maps-groceries",
+    "/maps/atms": "view-maps-atms",
+    "/maps/transit": "view-maps-transit",
+    "/maps/attractions": "view-maps-attractions",
+    "/maps/parks": "view-maps-parks",
+    "/maps/theatres": "view-maps-theatres",
+    "/maps/events": "view-maps-events",
+    "/safety": "view-safety"
+  };
+
+  function setActiveView(){
+    const hash = (location.hash || "#/" ).replace(/^#/, "");
+    const id = routes[hash] || routes["/"];
+    $$(".view").forEach(v => v.classList.remove("active"));
+    const el = document.getElementById(id);
+    if (el){ el.classList.add("active"); window.scrollTo({top:0,behavior:"auto"}); }
+  }
+  window.addEventListener("hashchange", setActiveView);
+
+  function formatVisitRange(startISO, endISO){
+    try{
+      const s = new Date(startISO+"T00:00:00");
+      const e = new Date(endISO+"T00:00:00");
+      const sameMonth = s.getMonth()===e.getMonth() && s.getFullYear()===e.getFullYear();
+      const opts = { month:"short", day:"numeric" };
+      const a = s.toLocaleDateString(undefined, opts);
+      const b = e.toLocaleDateString(undefined, opts);
+      return sameMonth ? (a+"–"+String(e.getDate())+", "+e.getFullYear()) : (a+"–"+b+", "+e.getFullYear());
+    }catch{ return "TBD"; }
+  }
+
+  function tzAbbr(now, zone){
+    try{
+      const parts = new Intl.DateTimeFormat('en', { timeZone: zone, timeZoneName: 'short' }).formatToParts(now);
+      const tzp = parts.find(p=>p.type==='timeZoneName');
+      return tzp ? tzp.value : 'Local';
+    }catch{ return 'Local'; }
+  }
+
+  function tickClocks(){
+    const now = new Date();
+    const tz = CONFIG.port.tz;
+    const hx = CONFIG.port.halifaxTz;
+    const fmt = (zone)=>new Intl.DateTimeFormat([], {hour:'2-digit',minute:'2-digit',hour12:false,timeZone:zone}).format(now);
+    const lt = $("#local-time");
+    const ht = $("#hx-time");
+    if (lt) lt.textContent = fmt(tz);
+    if (ht) ht.textContent = fmt(hx);
+    const a = $("#tz-abbr");
+    const b = $("#hx-abbr");
+    if (a) a.textContent = tzAbbr(now, tz);
+    if (b) b.textContent = tzAbbr(now, hx);
+  }
+
+  function isPlaceholder(v){
+    const x = (v||"").toString().trim();
+    return !x || /^tbd$/i.test(x) || /xxxxx/i.test(x);
+  }
+
+  function phoneToDial(raw){
+    const x = (raw||"").toString().trim();
+    // Keep leading + then digits; drop everything else.
+    const leadPlus = x.startsWith("+");
+    const digits = x.replace(/[^0-9]/g,"");
+    return (leadPlus ? "+" : "") + digits;
+  }
+
+  function makeBtn(text, href, opts={}){
+    const a = document.createElement('a');
+    a.className = 'btn';
+    a.textContent = text;
+    if (!href || href==="#"){
+      a.href = '#';
+      a.setAttribute('aria-disabled','true');
+    } else {
+      a.href = href;
+      if (opts.target) a.target = opts.target;
+      if (opts.rel) a.rel = opts.rel;
+    }
+    return a;
+  }
+
+  function renderContacts(){
+    const box = document.getElementById('contacts-list');
+    if(!box) return;
+    box.innerHTML = '';
+
+    CONFIG.contacts.forEach(item=>{
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const title = document.createElement('strong');
+      title.textContent = item.role;
+      card.appendChild(title);
+
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+
+      const phone = item.phone || '';
+      if (!isPlaceholder(phone)){
+        const dial = phoneToDial(phone);
+        actions.appendChild(makeBtn('Call', 'tel:'+dial));
+        actions.appendChild(makeBtn('Text', 'sms:'+dial));
+      } else {
+        actions.appendChild(makeBtn('Call (TBD)', '#'));
+        actions.appendChild(makeBtn('Text (TBD)', '#'));
+      }
+
+      if (item.email){
+        const email = item.email;
+        actions.appendChild(makeBtn('Email', 'mailto:'+email+'?subject=Check-In'));
+      }
+
+      card.appendChild(actions);
+
+      const p = document.createElement('p');
+      p.className = 'muted small';
+      p.style.margin = '0';
+      p.textContent = isPlaceholder(phone) ? 'Number: TBD' : ('Number: '+phone);
+      card.appendChild(p);
+
+      box.appendChild(card);
+    });
+  }
+
+  function renderHospitals(){
+    const box = document.getElementById('hospitals-list');
+    if(!box) return;
+    box.innerHTML = '';
+
+    CONFIG.medical.hospitals.forEach(h=>{
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const t = document.createElement('strong');
+      t.textContent = h.name;
+      card.appendChild(t);
+
+      const kv = document.createElement('div');
+      kv.className = 'kv';
+      kv.innerHTML = `<div class="muted">Phone</div><div>${h.phone || 'TBD'}</div>`;
+      card.appendChild(kv);
+
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+      actions.appendChild(makeBtn('Google Maps', h.gmap, {target:'_blank', rel:'noopener'}));
+      actions.appendChild(makeBtn('Apple Maps', h.amap, {target:'_blank', rel:'noopener'}));
+      if (h.phone) actions.appendChild(makeBtn('Call', 'tel:'+phoneToDial(h.phone)));
+      card.appendChild(actions);
+
+      if(h.note){
+        const p = document.createElement('p');
+        p.className = 'muted small';
+        p.style.margin = '0';
+        p.textContent = h.note;
+        card.appendChild(p);
+      }
+
+      box.appendChild(card);
+    });
+  }
+
+  function addDaysISO(iso, add){
+    const [y,m,d] = iso.split("-").map(Number);
+    const dt = new Date(Date.UTC(y, m-1, d));
+    dt.setUTCDate(dt.getUTCDate() + add);
+    return dt.toISOString().slice(0,10);
+  }
+
+  function computeLeaveExpiry(iso){
+    const overrides = CONFIG.schedule.leaveOverrides || {};
+    if (overrides[iso]) return overrides[iso];
+
+    const dep = CONFIG.visit.end;
+    if (iso === dep) return 'N/A (Depart)';
+
+    const nightBefore = addDaysISO(iso, 1) === dep;
+    return nightBefore ? '2359 same day' : '0700 next day';
+  }
+
+  function weekdayForPort(iso){
+    try{
+      const [y,m,d] = iso.split("-").map(Number);
+      // Use noon UTC to avoid edge cases during DST shifts; format in port TZ.
+      const dt = new Date(Date.UTC(y, m-1, d, 12, 0, 0));
+      return new Intl.DateTimeFormat(undefined,{weekday:'long', timeZone: CONFIG.port.tz}).format(dt);
+    }catch{
+      return iso;
+    }
+  }
+
+  function renderSchedule(){
+    const list = document.getElementById('schedule-days');
+    if(!list) return;
+    list.innerHTML = '';
+
+    const start = CONFIG.visit.start;
+    const end = CONFIG.visit.end;
+
+    // inclusive loop
+    let cur = start;
+    while(true){
+      const iso = cur;
+      const weekday = weekdayForPort(iso);
+      const dayLabel = (CONFIG.visit.labels && CONFIG.visit.labels[iso]) ? String(CONFIG.visit.labels[iso]) : '';
+      const leave = computeLeaveExpiry(iso);
+      const wx = (CONFIG.schedule.weatherByDay && CONFIG.schedule.weatherByDay[iso]) ? String(CONFIG.schedule.weatherByDay[iso]) : 'TBD';
+
+      const wrap = document.createElement('div');
+      wrap.className = 'card';
+
+      const h = document.createElement('div');
+      h.innerHTML = `<strong>${weekday} <span class="muted small">${iso}</span></strong>`;
+      wrap.appendChild(h);
+
+      if(dayLabel){
+        const kv0 = document.createElement('div');
+        kv0.className = 'kv';
+        kv0.innerHTML = `<div class="muted">Day</div><div>${dayLabel}</div>`;
+        wrap.appendChild(kv0);
+      }
+
+      const kv = document.createElement('div');
+      kv.className = 'kv';
+      kv.innerHTML = `<div class="muted">Leave Expiry</div><div>${leave}</div>`;
+      wrap.appendChild(kv);
+
+      const kv2 = document.createElement('div');
+      kv2.className = 'kv';
+      kv2.innerHTML = `<div class="muted">Weather</div><div>${wx} <span class="sep">•</span> <a href="${CONFIG.port.wx.envCanadaUrl}" target="_blank" rel="noopener">forecast</a></div>`;
+      wrap.appendChild(kv2);
+
+      list.appendChild(wrap);
+
+      if (iso === end) break;
+      cur = addDaysISO(cur, 1);
+    }
+
+    // Check-in values
+    const win = document.getElementById('checkin-window');
+    if (win) win.textContent = CONFIG.schedule.checkinWindow || 'TBD';
+
+    const ce = document.getElementById('checkin-email');
+    if (ce){
+      const email = CONFIG.schedule.checkinEmail;
+      if (email && !isPlaceholder(email)){
+        ce.textContent = email;
+        ce.href = 'mailto:'+email+'?subject=Check-In';
+        ce.removeAttribute('aria-disabled');
+      } else {
+        ce.textContent = 'TBD';
+        ce.href = '#';
+        ce.setAttribute('aria-disabled','true');
+      }
+    }
+
+    const cp = document.getElementById('checkin-phone');
+    if (cp){
+      const phone = CONFIG.schedule.checkinPhone;
+      if (phone && !isPlaceholder(phone)){
+        cp.textContent = phone;
+        cp.href = 'tel:'+phoneToDial(phone);
+        cp.removeAttribute('aria-disabled');
+      } else {
+        cp.textContent = 'TBD';
+        cp.href = '#';
+        cp.setAttribute('aria-disabled','true');
+      }
+    }
+  }
+
+  function renderMedical(){
+    const sh = document.getElementById('sick-hours');
+    if (sh) sh.textContent = CONFIG.medical.sickParadeHours || 'TBD';
+
+    const medCall = document.getElementById('med-call');
+    const medSms = document.getElementById('med-sms');
+    const phone = CONFIG.medical.dutyPhone || '';
+
+    if (medCall){
+      if (!isPlaceholder(phone)){
+        const dial = phoneToDial(phone);
+        medCall.textContent = 'Call';
+        medCall.href = 'tel:'+dial;
+        medCall.removeAttribute('aria-disabled');
+      } else {
+        medCall.textContent = 'Call (TBD)';
+        medCall.href = '#';
+        medCall.setAttribute('aria-disabled','true');
+      }
+    }
+
+    if (medSms){
+      if (!isPlaceholder(phone)){
+        const dial = phoneToDial(phone);
+        medSms.textContent = 'Text';
+        medSms.href = 'sms:'+dial;
+        medSms.removeAttribute('aria-disabled');
+      } else {
+        medSms.textContent = 'Text (TBD)';
+        medSms.href = '#';
+        medSms.setAttribute('aria-disabled','true');
+      }
+    }
+
+    const roster = document.getElementById('med-roster');
+    if (roster){
+      const list = Array.isArray(CONFIG.medical.medRoster) ? CONFIG.medical.medRoster : [];
+      if (!list.length){ roster.textContent = 'Roster: TBD'; }
+      else {
+        const ul = document.createElement('ul');
+        ul.style.margin = '0 0 0 1rem';
+        ul.className = 'small';
+        list.forEach(it=>{
+          const li = document.createElement('li');
+          const role = it.role || 'PA/Paramedic';
+          li.textContent = `${it.date||''}: ${role}`;
+          ul.appendChild(li);
+        });
+        roster.textContent='';
+        roster.appendChild(ul);
+      }
+    }
+  }
+
+  function renderList(targetId, items, fallbackSearchQuery){
+    const box = document.getElementById(targetId);
+    if(!box) return;
+    box.innerHTML = '';
+
+    items.forEach(it=>{
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const title = document.createElement('strong');
+      title.textContent = it.name;
+      card.appendChild(title);
+
+      if (it.note){
+        const p = document.createElement('p');
+        p.className = 'muted small';
+        p.style.margin = '0';
+        p.textContent = it.note;
+        card.appendChild(p);
+      }
+
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+
+      let gmap = it.gmap || '';
+      let amap = it.amap || '';
+      if (it.searchQuery){
+        const q = encodeURIComponent(it.searchQuery);
+        gmap = `https://www.google.com/maps/search/${q}`;
+        amap = `https://maps.apple.com/?q=${q}`;
+      }
+
+      if (gmap) actions.appendChild(makeBtn('Google Maps', gmap, {target:'_blank', rel:'noopener'}));
+      if (amap) actions.appendChild(makeBtn('Apple Maps', amap, {target:'_blank', rel:'noopener'}));
+      if (it.website) actions.appendChild(makeBtn('Website', it.website, {target:'_blank', rel:'noopener'}));
+      if (it.phone && !isPlaceholder(it.phone)) actions.appendChild(makeBtn('Call', 'tel:'+phoneToDial(it.phone)));
+
+      card.appendChild(actions);
+      box.appendChild(card);
+    });
+
+    if (fallbackSearchQuery){
+      const c = document.createElement('div');
+      c.className = 'card';
+      const t = document.createElement('strong');
+      t.textContent = 'More options';
+      c.appendChild(t);
+      const p = document.createElement('p');
+      p.className = 'muted small';
+      p.style.margin = '0';
+      p.textContent = 'Open a live map search near the port area.';
+      c.appendChild(p);
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+      const q = encodeURIComponent(fallbackSearchQuery + ' near ' + CONFIG.port.portQuery);
+      actions.appendChild(makeBtn('Google Maps', 'https://www.google.com/maps/search/'+q, {target:'_blank', rel:'noopener'}));
+      actions.appendChild(makeBtn('Apple Maps', 'https://maps.apple.com/?q='+q, {target:'_blank', rel:'noopener'}));
+      c.appendChild(actions);
+      box.appendChild(c);
+    }
+  }
+
+  function init(){
+    // Header
+    document.getElementById('ship-name').textContent = CONFIG.ship.name;
+    const crest = document.getElementById('ship-crest');
+    crest.src = CONFIG.ship.crestUrl;
+    document.documentElement.style.setProperty('--crest-url', `url('${CONFIG.ship.crestUrl}')`);
+
+    document.getElementById('port-title').textContent = `Port Visit — ${CONFIG.port.city}`;
+    document.getElementById('port-area').textContent = CONFIG.port.areaLabel;
+    document.getElementById('visit-range').textContent = formatVisitRange(CONFIG.visit.start, CONFIG.visit.end);
+
+    // FX pill
+    const fx = (CONFIG.fx && CONFIG.fx.text || "").trim();
+    const fxPill = document.getElementById('fx-pill');
+    const fxText = document.getElementById('fx-text');
+    if (fx && fxPill && fxText){
+      fxText.textContent = fx;
+      fxPill.style.display = 'inline-flex';
+    }
+
+    // Clocks
+    tickClocks();
+    setInterval(tickClocks, 1000);
+
+    // Weather links
+    const ec = document.getElementById('wx-ec');
+    const twn = document.getElementById('wx-twn');
+    if (ec) ec.href = CONFIG.port.wx.envCanadaUrl;
+    if (twn) twn.href = CONFIG.port.wx.weatherNetworkUrl;
+
+    // Maps: port area links
+    const pq = encodeURIComponent(CONFIG.port.portQuery);
+    const pg = document.getElementById('port-gmap');
+    const pa = document.getElementById('port-amap');
+    if (pg) pg.href = 'https://www.google.com/maps/search/'+pq;
+    if (pa) pa.href = 'https://maps.apple.com/?q='+pq;
+
+    // Render sections
+    renderContacts();
+    renderHospitals();
+    renderSchedule();
+    renderMedical();
+
+    renderList('restaurants-list', CONFIG.maps.restaurants, 'restaurants');
+    renderList('bars-list', CONFIG.maps.bars, 'bars');
+    renderList('groceries-list', CONFIG.maps.groceries, 'grocery store');
+    renderList('atms-list', CONFIG.maps.atms, 'ATM');
+    renderList('transit-list', CONFIG.maps.transit);
+    renderList('attractions-list', CONFIG.maps.attractions);
+    renderList('parks-list', CONFIG.maps.parks);
+    renderList('theatres-list', CONFIG.maps.theatres, 'theatre OR cinema');
+    renderList('events-list', CONFIG.maps.events);
+
+    setActiveView();
+  }
+
+  init();
+</script>
+</body>
+</html>
