@@ -6,6 +6,7 @@ const keys = {
     a: false, d: false, w: false, Space: false, r: false
 };
 
+// Keyboard inputs
 document.addEventListener('keydown', (e) => {
     if (keys.hasOwnProperty(e.key)) keys[e.key] = true;
     if (e.code === 'Space') keys.Space = true;
@@ -19,6 +20,52 @@ document.addEventListener('keydown', (e) => {
 document.addEventListener('keyup', (e) => {
     if (keys.hasOwnProperty(e.key)) keys[e.key] = false;
     if (e.code === 'Space') keys.Space = false;
+});
+
+// Touch controls setup
+const btnLeft = document.getElementById('btn-left');
+const btnRight = document.getElementById('btn-right');
+const btnJump = document.getElementById('btn-jump');
+const btnRestart = document.getElementById('btn-restart');
+
+function setupTouch(btn, key1, key2) {
+    const handleStart = (e) => {
+        e.preventDefault(); // prevent mouse emulation 
+        keys[key1] = true;
+        if (key2) keys[key2] = true;
+        btn.classList.add('active');
+    };
+
+    const handleEnd = (e) => {
+        e.preventDefault();
+        keys[key1] = false;
+        if (key2) keys[key2] = false;
+        btn.classList.remove('active');
+    };
+
+    btn.addEventListener('touchstart', handleStart, { passive: false });
+    btn.addEventListener('touchend', handleEnd, { passive: false });
+    btn.addEventListener('touchcancel', handleEnd, { passive: false });
+    // Mouse fallback for testing mobile UI on desktop
+    btn.addEventListener('mousedown', handleStart);
+    btn.addEventListener('mouseup', handleEnd);
+    btn.addEventListener('mouseleave', handleEnd);
+}
+
+setupTouch(btnLeft, 'ArrowLeft', 'a');
+setupTouch(btnRight, 'ArrowRight', 'd');
+setupTouch(btnJump, 'ArrowUp', 'Space');
+
+btnRestart.addEventListener('click', () => {
+    if (gameState === 'win' || gameState === 'gameover') {
+        resetGame();
+    }
+});
+btnRestart.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    if (gameState === 'win' || gameState === 'gameover') {
+        resetGame();
+    }
 });
 
 const GRAVITY = 0.6;
@@ -319,6 +366,8 @@ let player;
 let cameraX = 0;
 
 function initLevel() {
+    btnRestart.style.display = 'none';
+
     platforms = [
         // Ground (multiple segments with gaps)
         new Platform(0, 350, 800, 50, 'ground'),
@@ -411,8 +460,9 @@ function drawUI() {
         ctx.fillStyle = '#fff';
         ctx.font = '40px "Courier New", Courier, monospace';
         ctx.fillText('GAME OVER', canvas.width / 2, canvas.height / 2);
-        ctx.font = '20px "Courier New", Courier, monospace';
-        ctx.fillText('Press R to Restart', canvas.width / 2, canvas.height / 2 + 40);
+
+        // Show restart button
+        btnRestart.style.display = 'block';
     } else if (gameState === 'win') {
         // Only draw WIN text if player has slid down
         if (player.y >= 310 - player.height) {
@@ -421,9 +471,9 @@ function drawUI() {
             ctx.fillStyle = '#f8d800';
             ctx.font = '40px "Courier New", Courier, monospace';
             ctx.fillText('COURSE CLEAR!', canvas.width / 2, canvas.height / 2);
-            ctx.fillStyle = '#fff';
-            ctx.font = '20px "Courier New", Courier, monospace';
-            ctx.fillText('Press R to Play Again', canvas.width / 2, canvas.height / 2 + 40);
+
+            // Show restart button
+            btnRestart.style.display = 'block';
         }
     }
 }

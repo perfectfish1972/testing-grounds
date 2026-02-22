@@ -5,31 +5,112 @@ body {
     color: white;
     font-family: 'Inter', 'Roboto', sans-serif;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    touch-action: none;
+    /* Prevent scroll/zoom on mobile */
+    overflow: hidden;
 }
 
 .game-container {
-    text-align: center;
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 canvas {
-    background-color: #5c94fc; /* Mario sky blue */
-    border: 4px solid #fff;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    background-color: #5c94fc;
+    /* Mario sky blue */
     display: block;
-    margin: 0 auto;
+    width: 100%;
+    aspect-ratio: 2 / 1;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    image-rendering: pixelated;
+    /* Crisp pixel art */
+    touch-action: none;
 }
 
-h1 {
-    font-size: 2rem;
-    margin-bottom: 10px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+/* Mobile Controls */
+#mobile-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-sizing: border-box;
+    pointer-events: none;
+    /* Let clicks pass through if empty space */
 }
 
-p {
+#mobile-controls button {
+    pointer-events: auto;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    outline: none;
+}
+
+#mobile-controls button:active,
+#mobile-controls button.active {
+    background: rgba(255, 255, 255, 0.6);
+    color: #fff;
+    border-color: #fff;
+}
+
+.d-pad {
+    display: flex;
+    gap: 15px;
+}
+
+#btn-restart {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px 30px;
+    font-size: 24px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border: 2px solid white;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 10;
+    font-family: inherit;
+    font-weight: bold;
+}
+
+.desktop-instructions {
     margin-top: 15px;
     opacity: 0.8;
+}
+
+/* Hide mobile controls on larger screens (optional) */
+@media (min-width: 850px) {
+    #mobile-controls {
+        display: none;
+    }
+}
+
+/* Hide desktop instructions on small screens */
+@media (max-width: 849px) {
+    .desktop-instructions {
+        display: none;
+    }
 }

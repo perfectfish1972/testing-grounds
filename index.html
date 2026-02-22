@@ -3,17 +3,32 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Super Mario Bros Clone</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
   <div class="game-container">
-    <h1>Super Mario Bros. Style Game</h1>
     <canvas id="gameCanvas" width="800" height="400"></canvas>
+
+    <div id="mobile-controls">
+      <div class="d-pad">
+        <button id="btn-left">◀</button>
+        <button id="btn-right">▶</button>
+      </div>
+      <div class="action-buttons">
+        <button id="btn-jump">▲</button>
+      </div>
+    </div>
+
+    <button id="btn-restart" style="display: none;">Restart Level</button>
+  </div>
+
+  <div class="desktop-instructions">
     <p>Controls: WASD or Arrow Keys to Move/Jump</p>
   </div>
+
   <script src="game.js"></script>
 </body>
 
